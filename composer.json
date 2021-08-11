@@ -1,0 +1,51 @@
+{
+  "name": "pollen-solutions/console",
+  "description": "Pollen Solutions - Console Component - Command-line commands from PHP CLI.",
+  "homepage": "https://www.presstify.com/pollen-solutions/asset/",
+  "keywords": [
+    "pollen",
+    "component",
+    "console",
+    "cli"
+  ],
+  "time": "2021-09-11",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jordy Manner",
+      "email": "jordy@presstify.com"
+    }
+  ],
+  "require": {
+    "php": "^7.4 || ^8.0",
+    "pollen-solutions/support": "^1.0",
+    "symfony/console": "^5.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.0",
+    "roave/security-advisories": "dev-latest"
+  },
+  "autoload": {
+    "psr-4": {
+      "Pollen\\Console\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Pollen\\Console\\Test\\": "tests"
+    }
+  },
+  "suggest": {
+    "pollen-solutions/container" : "Pollen Solutions - Container Component - PSR-11 ready Dependencies Injection Container."
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "bin": [
+    "bin/pollen-console"
+  ]
+}

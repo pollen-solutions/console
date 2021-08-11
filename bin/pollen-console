@@ -1,0 +1,51 @@
+#!/usr/bin/env php
+<?php
+
+use App\App;
+use Pollen\Console\Console;
+use Pollen\Console\ConsoleInterface;
+
+/**
+ * DEBUGGING
+ * /
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+/**/
+
+$DS = DIRECTORY_SEPARATOR;
+$basePath = getcwd();
+
+$autoloadPaths = [
+    $basePath . "/vendor/autoload.php",
+    __DIR__ . "$DS..{$DS}autoload.php",
+    __DIR__ . "$DS..$DS..$DS..{$DS}autoload.php"
+];
+
+foreach ($autoloadPaths as $autoloadPath) {
+    if (file_exists($autoloadPath)) {
+        require_once $autoloadPath;
+        break;
+    }
+}
+
+if (class_exists(App::class)) {
+    $app = new App($basePath);
+}
+
+if (defined('ABSPATH')) {
+    require_once(ABSPATH . 'wp-settings.php');
+}
+
+if (isset($app)) {
+    $app->build();
+
+    $console = $app->has(ConsoleInterface::class) ? $app->get(ConsoleInterface::class) : new Console();
+} else {
+    $console = new Console();
+}
+
+try {
+    $console->run();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
