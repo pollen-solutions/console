@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Pollen\Console;
 
-use Exception;
-use Pollen\Support\Concerns\ConfigBagAwareTrait;
 use Pollen\Support\Exception\ManagerRuntimeException;
 use Pollen\Support\Proxy\ContainerProxy;
 use Psr\Container\ContainerInterface as Container;
@@ -14,7 +12,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 class Console implements ConsoleInterface
 {
-    use ConfigBagAwareTrait;
     use ContainerProxy;
 
     /**
@@ -30,13 +27,10 @@ class Console implements ConsoleInterface
     public ?CommandsRunnerInterface $runner = null;
 
     /**
-     * @param array $config
      * @param Container|null $container
      */
-    public function __construct(array $config = [], ?Container $container = null)
+    public function __construct(?Container $container = null)
     {
-        $this->setConfig($config);
-
         if ($container !== null) {
             $this->setContainer($container);
         }
@@ -133,12 +127,10 @@ class Console implements ConsoleInterface
     /**
      * @inheritDoc
      */
-    public function run()
+    public function run(): int
     {
-        try {
-            $this->getRunner()->run($input = new CommandArgvInput(), new CommandOutput($input, new ConsoleOutput()));
-        } catch (Exception $e) {
-            var_dump($e->getMessage());
-        }
+        return $this->getRunner()->run(
+            $input = new CommandArgvInput(), new CommandOutput($input, new ConsoleOutput())
+        );
     }
 }
