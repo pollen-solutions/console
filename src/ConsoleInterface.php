@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Pollen\Console;
 
-use Pollen\Support\Concerns\ConfigBagAwareTraitInterface;
+use Exception;
 use Pollen\Support\Proxy\ContainerProxyInterface;
 
-interface ConsoleInterface extends ConfigBagAwareTraitInterface, ContainerProxyInterface
+interface ConsoleInterface extends ContainerProxyInterface
 {
     /**
      * Add a command.
@@ -39,7 +39,9 @@ interface ConsoleInterface extends ConfigBagAwareTraitInterface, ContainerProxyI
     /**
      * Run command.
      *
-     * @return mixed
+     * @return int
+     *
+     * @throws Exception
      */
-    public function run();
+    public function run(): int;
 }
