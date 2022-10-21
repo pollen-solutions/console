@@ -58,8 +58,12 @@ class Console implements ConsoleInterface
      */
     public function addCommand($commandDef, ?string $name = null): CommandInterface
     {
-        if (is_string($commandDef) && $this->containerHas($commandDef)) {
-            $commandDef = $this->containerGet($commandDef);
+        if (is_string($commandDef)) {
+            if ($this->containerHas($commandDef)) {
+                $commandDef = $this->containerGet($commandDef);
+            } elseif (class_exists($commandDef)) {
+                $commandDef = new $commandDef;
+            }
         }
 
         if (is_a($commandDef, CommandInterface::class)) {
